@@ -54,10 +54,10 @@ public class LocaleUtilsTest {
     public void should_throw_exception_when_string_length_less_than_three() {
         //given
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid locale format: ab");
+        thrown.expectMessage("Invalid locale format: _ab");
 
         //when
-        localeUtils.toLocale("ab");
+        localeUtils.toLocale("_ab");
     }
 
     @Test
@@ -121,22 +121,146 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_return_except_top_two_underline_when_input_begin_with_underline_and_has_underline() {
-        //given
-        //when
-        Locale result = localeUtils.toLocale("_BQ_ABC");
-
-        //then
-        assertThat(result).isEqualTo(new Locale(EMPTY, "BQ", "ABC"));
+    public void should_return_language_and_country_when_input_is_right_format() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("_CN_CHN");
+        // then
+        assertThat(result).isEqualTo(new Locale(EMPTY, "CN", "CHN"));
     }
 
     @Test
-    public void should_return_string_when_isISO639LanguageCode() {
-        //given
-        //when
-        Locale result = localeUtils.toLocale("_BQ_ABC");
-
-        //then
-        assertThat(result).isEqualTo(new Locale(EMPTY, "BQ", "ABC"));
+    public void should_return_language_when_input_is_language_string_and_length_is_two() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("ab");
+        // then
+        assertThat(result).isEqualTo(new Locale("ab"));
     }
+
+    @Test
+    public void should_return_language_when_input_is_language_string_and_length_is_three() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("abc");
+        // then
+        assertThat(result).isEqualTo(new Locale("abc"));
+    }
+
+    @Test
+    public void should_return_language_and_country_when_input_language_underline_country_format() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("cn_CN");
+        // then
+        assertThat(result).isEqualTo(new Locale("cn", "CN"));
+    }
+
+    @Test
+    public void should_return_language_and_country_when_input_is_language_underline_country_code_format() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("cn_123");
+        // then
+        assertThat(result).isEqualTo(new Locale("cn", "123"));
+    }
+
+    @Test
+    public void should_throw_exception_when_with_invalid_country_code() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: cn_abc");
+        // when
+        localeUtils.toLocale("cn_abc");
+        // then
+    }
+
+    @Test
+    public void should_throw_exception_when_with_empty_country_code() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: cn_");
+        // when
+        localeUtils.toLocale("cn_");
+        // then
+    }
+
+    @Test
+    public void should_return_language_country_variant_when_input_is_language_underline_country_code_underline_variant_format() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("cn_123_ab");
+        // then
+        assertThat(result).isEqualTo(new Locale("cn", "123", "ab"));
+    }
+
+    @Test
+    public void should_return_language_country_variant_when_input_is_language_underline_upper_case_country_code_underline_variant_format() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("cn_AB_ab");
+        // then
+        assertThat(result).isEqualTo(new Locale("cn", "AB", "ab"));
+    }
+
+
+    @Test
+    public void should_return_language_variant_when_input_is_language_underline__underline_variant_format() {
+        // given
+        // when
+        Locale result = localeUtils.toLocale("cn__ab");
+        // then
+        assertThat(result).isEqualTo(new Locale("cn", "", "ab"));
+    }
+
+    @Test
+    public void should_throw_exception_when_with_empty_variant_code() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: ab_AB_");
+        // when
+        localeUtils.toLocale("ab_AB_");
+        // then
+    }
+
+    @Test
+    public void should_throw_exception_when_input_language_code_is_not_ISO639() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: AB_abc_a");
+        // when
+        localeUtils.toLocale("AB_abc_a");
+        // then
+    }
+
+    @Test
+    public void should_throw_exception_when_input_has_country_is_invalid() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: ab_abc_ab");
+        // when
+        localeUtils.toLocale("ab_abc_ab");
+        // then
+    }
+
+    @Test
+    public void should_throw_exception_when_input_language_is_not_ISO639_language_code() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: AB_abc");
+        // when
+        localeUtils.toLocale("AB_abc");
+        // then
+    }
+
+    @Test
+    public void should_throw_exception_when_with_invalid_format() {
+        // given
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Invalid locale format: AB_abc_ab_78");
+        // when
+        localeUtils.toLocale("AB_abc_ab_78");
+        // then
+    }
+
 }
