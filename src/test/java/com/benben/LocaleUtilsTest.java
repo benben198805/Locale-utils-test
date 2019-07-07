@@ -1,5 +1,6 @@
 package com.benben;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -12,12 +13,16 @@ public class LocaleUtilsTest {
     private static final String EMPTY = "";
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    private LocaleUtils localeUtils;
+
+    @Before
+    public void setUp() {
+        localeUtils = new LocaleUtils();
+    }
 
     @Test
     public void should_return_null_when_null_to_locale() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
-
         //when
         Locale result = localeUtils.toLocale(null);
 
@@ -28,8 +33,6 @@ public class LocaleUtilsTest {
     @Test
     public void should_return_empty_when_empty_to_locale() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
-
         //when
         Locale result = localeUtils.toLocale("");
 
@@ -38,9 +41,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_string_contains_number_sign_to_locale(){
+    public void should_throw_exception_when_string_contains_number_sign_to_locale() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: a#b");
 
@@ -49,9 +51,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_string_length_less_than_three(){
+    public void should_throw_exception_when_string_length_less_than_three() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: ab");
 
@@ -60,9 +61,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_input_begin_with_underline_and_length_less_than_three(){
+    public void should_throw_exception_when_input_begin_with_underline_and_length_less_than_three() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: _b");
 
@@ -71,9 +71,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_input_begin_with_underline_and_second_char_is_not_upper_case(){
+    public void should_throw_exception_when_input_begin_with_underline_and_second_char_is_not_upper_case() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: _bQ");
 
@@ -82,9 +81,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_input_begin_with_underline_and_third_char_is_not_upper_case(){
+    public void should_throw_exception_when_input_begin_with_underline_and_third_char_is_not_upper_case() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: _Bq");
 
@@ -93,10 +91,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_return_except_underline_when_input_begin_with_underline_and_second_third_char_is_upper_case_and_length_is_three(){
+    public void should_return_except_underline_when_input_begin_with_underline_and_second_third_char_is_upper_case_and_length_is_three() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
-
         //when
         Locale result = localeUtils.toLocale("_BQ");
 
@@ -105,9 +101,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_input_begin_with_underline_and_length_is_four(){
+    public void should_throw_exception_when_input_begin_with_underline_and_length_is_four() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: _BQ_");
 
@@ -116,9 +111,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_throw_exception_when_input_begin_with_underline_and_length_more_than_five_and_fourth_is_not_underline(){
+    public void should_throw_exception_when_input_begin_with_underline_and_length_more_than_five_and_fourth_is_not_underline() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Invalid locale format: _BQAAA");
 
@@ -127,10 +121,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_return_except_top_two_underline_when_input_begin_with_underline_and_has_underline(){
+    public void should_return_except_top_two_underline_when_input_begin_with_underline_and_has_underline() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
-
         //when
         Locale result = localeUtils.toLocale("_BQ_ABC");
 
@@ -139,10 +131,8 @@ public class LocaleUtilsTest {
     }
 
     @Test
-    public void should_return_string_when_isISO639LanguageCode(){
+    public void should_return_string_when_isISO639LanguageCode() {
         //given
-        LocaleUtils localeUtils = new LocaleUtils();
-
         //when
         Locale result = localeUtils.toLocale("_BQ_ABC");
 
