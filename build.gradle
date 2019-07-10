@@ -22,7 +22,7 @@ test {
 
 jacocoTestReport {
     reports {
-        xml.enabled = false
+        xml.enabled true
         csv.enabled = false
         html.enabled = true
     }
@@ -36,22 +36,22 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 1
+                minimum = 1.00
             }
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
-                minimum = 1
+                minimum = 1.00
             }
             limit {
                 counter = 'METHOD'
                 value = 'COVEREDRATIO'
-                minimum = 1
+                minimum = 1.00
             }
             limit {
                 counter = 'CLASS'
                 value = 'COVEREDRATIO'
-                minimum = 1
+                minimum = 1.00
             }
         }
     }
